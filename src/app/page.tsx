@@ -1,8 +1,9 @@
 import styles from './page.module.css'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faGithub, faLinkedin, faStackOverflow } from '@fortawesome/free-brands-svg-icons';
-// import { faEnvelope } from '@fortawesome/free-regular-svg-icons';
+import { EmailLink } from './components/EmailLink';
 
+const email: string = "abrahamtoledo90@gmail.com"
 const social = [
     {
         name: 'Github',
@@ -42,7 +43,10 @@ export default function Home() {
                   title={name} />
             </a>
         ))}
+        <EmailLink email={btoa(email)}/>
       </div>
     </main>
   )
 }
+
+
