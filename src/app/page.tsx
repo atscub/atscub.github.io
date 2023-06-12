@@ -33,10 +33,9 @@ export default function Home() {
       <p>Website under construction</p>
   
       <div className={styles.socialLinks}>
-        {social.map(({icon, url, name}, index) => (
-            <a className='social-link' href={url} target='__blank' >
+        {social.map(({icon, url, name}) => (
+            <a key={name} className='social-link' href={url} target='__blank' >
                 <FontAwesomeIcon
-                  key={index}
                   icon={icon}
                   color='#545454'
                   size='2x'
