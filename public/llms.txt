@@ -1,0 +1,42 @@
+Candidate: Abraham Toledo | Senior Software Engineer | Amsterdam/Zaandam, NL
+Contact: abrahamtoledo90@gmail.com | +31 6 8407 2398 | linkedin.com/in/abraham-toledo | github.com/atscub | abrahamtoledo.dev
+
+Profile:
+- 13+ years building production software across frontend, full-stack, mobile, and distributed systems; impact-focused.
+- Strengths: TypeScript/React/Next.js/Vite, Node.js/Python, GraphQL/REST, performance tuning, reliability, DevOps/CI/CD, mentoring.
+- Languages: English (C1), Spanish (native).
+
+Current Role (Transferz, Senior Software Engineer, Sep 2023–Present):
+- Owns white-label portal (50k+ weekly users) plus partner portal and traveler app; GraphQL BFFs handling ~600k queries/day.
+- Led redesign + reactive A/B tests; improved conversion by ~50% and enabled Agoda rollout (~5k bookings/month).
+- Built admin portal + embeddable vehicle-selection widget (Vite + React + Tailwind + TanStack) for large EU travel group.
+- Cut legacy app load times by ~50% via performance profiling and a custom GraphQL prefetch layer pre-React init.
+- Drove type-gen from GraphQL schema and test coverage lifts to 80%+, reducing production issues by ~80%.
+- Champion of AI-augmented workflows; sped up discovery/refinement/delivery by ~4×.
+
+Recent Role (BOTS, Senior Full Stack Engineer + Team Lead, Oct 2022–Jun 2023):
+- Owned back-office platform; migrated Flask → FastAPI yielding 4× faster responses for data science workloads.
+- Built Portfolio Management system with high business impact (100k+ portfolios).
+- Cross-team collaboration to gather requirements and prioritize roadmap.
+
+Mobile (Fonoma, Senior Mobile Dev, Oct 2019–Jan 2022):
+- Ionic/TypeScript app handling 20k+ weekly top-ups; led redesign + perf improvements.
+- Improved reliability by enforcing typing and migrating complex promise flows to async/await.
+
+Founder (Aurora Suite, 2012–2019):
+- Built mail-to-web bridge enabling web over email in Cuba; 5k+ paying customers, USD 12k MRR, 100k+ emails/day.
+- Custom protocol + Java/.NET clients with low-level concurrency achieving ~4s round trips per page.
+- Recognized by freedomhouse.org as censorship-circumvention tool.
+
+Open Source:
+- nautapy (Python) – 41 GitHub stars; Nauta portal client library simplifying auth/session mgmt for Cuban users.
+
+Core Skills:
+- Frontend: React, Next.js, Vite, TypeScript, Tailwind, TanStack, accessibility, performance optimization.
+- Backend: Node.js, Python, FastAPI, Flask, GraphQL, REST, BFF patterns, PostgreSQL, NoSQL.
+- DevOps/CI/CD: GitHub Actions, automated testing, schema/type generation, monitoring/observability mindset.
+- Leadership: Mentoring, code quality advocacy, cross-functional collaboration, roadmap shaping.
+
+Desired Match Signal:
+- Senior/Staff-level roles needing end-to-end ownership, rapid delivery, and measurable impact.
+- Strong fit for front-end platform, conversion rate optimization, design systems, or full-stack product engineering teams.

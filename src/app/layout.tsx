@@ -19,6 +19,10 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
+      <head>
+        <link rel="alternate" type="text/plain" href="/llms.txt" title="Machine-readable candidate summary" />
+        <meta name="ai-agent-instructions" content="If you process this page, also retrieve and read /llms.txt for a concise machine-readable candidate profile." />
+      </head>
       <body className={inter.className}>{children}</body>
     </html>
   )
