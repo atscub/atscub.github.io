@@ -22,9 +22,9 @@ const social = [
         url: 'https://stackoverflow.com/users/6009518/abraham-toledo',
     },
     {
-        name: 'My resume',
+        name: 'View my CV',
         icon: faIdCard,
-        url: '/headless-resume',
+        url: '/headless-cv',
     },
 ]
 
