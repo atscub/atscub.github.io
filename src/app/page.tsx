@@ -1,6 +1,7 @@
 import styles from './page.module.css'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faGithub, faLinkedin, faStackOverflow } from '@fortawesome/free-brands-svg-icons';
+import { faIdCard } from '@fortawesome/free-regular-svg-icons';
 import { EmailLink } from './components/EmailLink';
 
 const email: string = "abrahamtoledo90@gmail.com"
@@ -20,11 +21,11 @@ const social = [
         icon: faStackOverflow,
         url: 'https://stackoverflow.com/users/6009518/abraham-toledo',
     },
-    // {
-    //     name: 'Email',
-    //     icon: faEnvelope,
-    //     url: '&#109;a&#105;l&#116;&#111;:&#97;&#98;&#114;&#97;&#104;&#97;&#109;&#116;&#111;&#108;&#101;&#100;&#111;&#57;&#48;&#64;&#103;&#109;&#97;&#105;&#108;&#46;&#99;&#111;&#109;',
-    // }
+    {
+        name: 'My resume',
+        icon: faIdCard,
+        url: '/headless-resume',
+    },
 ]
 
 export default function Home() {
