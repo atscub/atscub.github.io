@@ -1,0 +1,267 @@
+<!DOCTYPE html><html lang="en" data-astro-cid-bvzihdzo> <head><!-- Global Metadata --><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><link rel="icon" type="image/svg+xml" href="/favicon.svg"><link rel="sitemap" href="/sitemap-index.xml"><link rel="alternate" type="application/rss+xml" title="Abraham Toledo" href="https://username.github.io/rss.xml"><meta name="generator" content="Astro v5.15.0"><!-- Font preloads --><link rel="preload" href="/fonts/atkinson-regular.woff" as="font" type="font/woff" crossorigin><link rel="preload" href="/fonts/atkinson-bold.woff" as="font" type="font/woff" crossorigin><!-- Canonical URL --><link rel="canonical" href="https://username.github.io/blog/writing-tests-that-dont-suck/"><!-- Primary Meta Tags --><title>How to Write Tests That Don&#39;t Suck, and how to Teach AI to Do the Same</title><meta name="title" content="How to Write Tests That Don't Suck, and how to Teach AI to Do the Same"><meta name="description" content="A deep dive into writing effective tests and creating AI agents that uphold testing quality"><!-- Open Graph / Facebook --><meta property="og:type" content="website"><meta property="og:url" content="https://username.github.io/blog/writing-tests-that-dont-suck/"><meta property="og:title" content="How to Write Tests That Don't Suck, and how to Teach AI to Do the Same"><meta property="og:description" content="A deep dive into writing effective tests and creating AI agents that uphold testing quality"><meta property="og:image" content="https://username.github.io/_astro/blog-placeholder-1.Bx0Zcyzv.jpg"><!-- Twitter --><meta property="twitter:card" content="summary_large_image"><meta property="twitter:url" content="https://username.github.io/blog/writing-tests-that-dont-suck/"><meta property="twitter:title" content="How to Write Tests That Don't Suck, and how to Teach AI to Do the Same"><meta property="twitter:description" content="A deep dive into writing effective tests and creating AI agents that uphold testing quality"><meta property="twitter:image" content="https://username.github.io/_astro/blog-placeholder-1.Bx0Zcyzv.jpg"><link rel="stylesheet" href="/_astro/about.CAf00XQr.css">
+<style>main[data-astro-cid-bvzihdzo]{width:calc(100% - 2em);max-width:100%;margin:0}.hero-image[data-astro-cid-bvzihdzo]{width:100%}.hero-image[data-astro-cid-bvzihdzo] img[data-astro-cid-bvzihdzo]{display:block;margin:0 auto;border-radius:12px;box-shadow:var(--box-shadow)}.prose[data-astro-cid-bvzihdzo]{width:720px;max-width:calc(100% - 2em);margin:auto;padding:1em;color:rgb(var(--gray-dark))}.title[data-astro-cid-bvzihdzo]{margin-bottom:1em;padding:1em 0;text-align:center;line-height:1}.title[data-astro-cid-bvzihdzo] h1[data-astro-cid-bvzihdzo]{margin:0 0 .5em}.date[data-astro-cid-bvzihdzo]{margin-bottom:.5em;color:rgb(var(--gray))}.last-updated-on[data-astro-cid-bvzihdzo]{font-style:italic}
+</style></head> <body data-astro-cid-bvzihdzo> <header data-astro-cid-3ef6ksr2> <nav data-astro-cid-3ef6ksr2> <h2 data-astro-cid-3ef6ksr2><a class="text-xl" href="/" data-astro-cid-3ef6ksr2>Abraham Toledo</a></h2> <div class="internal-links" data-astro-cid-3ef6ksr2> <a href="/" data-astro-cid-3ef6ksr2="true" data-astro-cid-eimmu3lg> Home </a>  <a href="/blog" class="active" data-astro-cid-3ef6ksr2="true" data-astro-cid-eimmu3lg> Blog </a>  <a href="https://abrahamtoledo.dev/headless-cv/" target="_blank" rel="noopener noreferrer" data-astro-cid-3ef6ksr2>Resume</a> </div> <div class="social-links" data-astro-cid-3ef6ksr2> <a href="https://www.linkedin.com/in/abraham-toledo/" target="_blank" data-astro-cid-3ef6ksr2> <span class="sr-only" data-astro-cid-3ef6ksr2>Connect on LinkedIn</span> <svg viewBox="0 0 16 16" aria-hidden="true" width="24" height="24" data-astro-cid-3ef6ksr2><path fill="currentColor" d="M0 1.146C0 .513.526 0 1.175 0h13.65C15.474 0 16 .513 16 1.146v13.708c0 .633-.526 1.146-1.175 1.146H1.175C.526 16 0 15.487 0 14.854V1.146zm4.943 12.248V6.169H2.542v7.225h2.401zm-1.2-8.212c.837 0 1.358-.554 1.358-1.248-.015-.709-.52-1.248-1.342-1.248-.822 0-1.359.54-1.359 1.248 0 .694.521 1.248 1.327 1.248h.016zm4.908 8.212V9.359c0-.216.016-.432.08-.586.173-.431.568-.878 1.232-.878.869 0 1.216.662 1.216 1.634v3.865h2.401V9.25c0-2.22-1.184-3.252-2.764-3.252-1.274 0-1.845.7-2.165 1.193v.025h-.016a5.54 5.54 0 0 1 .016-.025V6.169h-2.4c.03.678 0 7.225 0 7.225h2.4z" data-astro-cid-3ef6ksr2></path></svg> </a> <a href="https://github.com/atscub" target="_blank" data-astro-cid-3ef6ksr2> <span class="sr-only" data-astro-cid-3ef6ksr2>My GitHub profile</span> <svg viewBox="0 0 16 16" aria-hidden="true" width="24" height="24" data-astro-cid-3ef6ksr2><path fill="currentColor" d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.012 8.012 0 0 0 16 8c0-4.42-3.58-8-8-8z" data-astro-cid-3ef6ksr2></path></svg> </a> </div> </nav> </header>  <main data-astro-cid-bvzihdzo> <article class="blog-post-content" data-astro-cid-bvzihdzo> <div class="hero-image" data-astro-cid-bvzihdzo>  </div> <div class="prose" data-astro-cid-bvzihdzo> <div class="title" data-astro-cid-bvzihdzo> <div class="date" data-astro-cid-bvzihdzo> <time datetime="2025-10-20T00:00:00.000Z"> Oct 20, 2025 </time>  </div> <h1 data-astro-cid-bvzihdzo>How to Write Tests That Don&#39;t Suck, and how to Teach AI to Do the Same</h1> <hr data-astro-cid-bvzihdzo> </div>  <p><strong>The Problem:</strong> You have 11 tests. They all pass. Your coverage is at 95%. You feel accomplished. Then a bug slips through in production—one your tests should have caught. Sound familiar?</p>
+<p>I recently spent an afternoon teaching an AI assistant how to write better tests for our React application. What started as a simple task—“add tests for this component”—turned into a masterclass in test quality over quantity. The kicker? By the end, we had <strong>fewer tests</strong> (3 instead of 11), <strong>better coverage</strong>, and a reusable AI agent that writes high-quality tests consistently.</p>
+<p>Here’s what I learned about writing good tests, and more importantly, how to encode that knowledge so AI assistants actually help instead of just inflating your test count.</p>
+<h2 id="the-11-tests-problem">The “11 Tests Problem”</h2>
+<p>Let me show you what bad tests look like. The AI initially wrote this:</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="typescript"><code><span class="line"><span style="color:#B392F0">it</span><span style="color:#E1E4E8">(</span><span style="color:#9ECBFF">'renders correct icon for AIRPORT type'</span><span style="color:#E1E4E8">, () </span><span style="color:#F97583">=></span><span style="color:#E1E4E8"> {</span></span>
+<span class="line"><span style="color:#B392F0">  render</span><span style="color:#E1E4E8">(&#x3C;</span><span style="color:#B392F0">Component</span><span style="color:#B392F0"> type</span><span style="color:#E1E4E8">=</span><span style="color:#9ECBFF">"AIRPORT"</span><span style="color:#E1E4E8"> />);</span></span>
+<span class="line"><span style="color:#B392F0">  expect</span><span style="color:#E1E4E8">(screen.</span><span style="color:#B392F0">getByTestId</span><span style="color:#E1E4E8">(</span><span style="color:#9ECBFF">'icon-plane'</span><span style="color:#E1E4E8">)).</span><span style="color:#B392F0">toBeInTheDocument</span><span style="color:#E1E4E8">();</span></span>
+<span class="line"><span style="color:#E1E4E8">});</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#B392F0">it</span><span style="color:#E1E4E8">(</span><span style="color:#9ECBFF">'renders correct icon for SEAPORT type'</span><span style="color:#E1E4E8">, () </span><span style="color:#F97583">=></span><span style="color:#E1E4E8"> {</span></span>
+<span class="line"><span style="color:#B392F0">  render</span><span style="color:#E1E4E8">(&#x3C;</span><span style="color:#B392F0">Component</span><span style="color:#B392F0"> type</span><span style="color:#E1E4E8">=</span><span style="color:#9ECBFF">"SEAPORT"</span><span style="color:#E1E4E8"> />);</span></span>
+<span class="line"><span style="color:#B392F0">  expect</span><span style="color:#E1E4E8">(screen.</span><span style="color:#B392F0">getByTestId</span><span style="color:#E1E4E8">(</span><span style="color:#9ECBFF">'icon-ship'</span><span style="color:#E1E4E8">)).</span><span style="color:#B392F0">toBeInTheDocument</span><span style="color:#E1E4E8">();</span></span>
+<span class="line"><span style="color:#E1E4E8">});</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#B392F0">it</span><span style="color:#E1E4E8">(</span><span style="color:#9ECBFF">'renders correct icon for TRAIN_STATION type'</span><span style="color:#E1E4E8">, () </span><span style="color:#F97583">=></span><span style="color:#E1E4E8"> {</span></span>
+<span class="line"><span style="color:#B392F0">  render</span><span style="color:#E1E4E8">(&#x3C;</span><span style="color:#B392F0">Component</span><span style="color:#B392F0"> type</span><span style="color:#E1E4E8">=</span><span style="color:#9ECBFF">"TRAIN_STATION"</span><span style="color:#E1E4E8"> />);</span></span>
+<span class="line"><span style="color:#B392F0">  expect</span><span style="color:#E1E4E8">(screen.</span><span style="color:#B392F0">getByTestId</span><span style="color:#E1E4E8">(</span><span style="color:#9ECBFF">'icon-tramfront'</span><span style="color:#E1E4E8">)).</span><span style="color:#B392F0">toBeInTheDocument</span><span style="color:#E1E4E8">();</span></span>
+<span class="line"><span style="color:#E1E4E8">});</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6A737D">// ... 8 more nearly identical tests</span></span></code></pre>
+<p>Eleven tests. All green. But here’s the problem: <strong>they’re testing the same behavior with different inputs</strong>. This is test pollution—it makes your test suite slower, harder to maintain, and doesn’t actually improve quality.</p>
+<h2 id="the-five-principles-of-good-tests">The Five Principles of Good Tests</h2>
+<p>Through iterative feedback with the AI, we distilled test quality down to five core principles:</p>
+<h3 id="1-group-by-concern-not-by-input">1. Group by Concern, Not by Input</h3>
+<p><strong>Bad:</strong></p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="typescript"><code><span class="line"><span style="color:#B392F0">it</span><span style="color:#E1E4E8">(</span><span style="color:#9ECBFF">'renders plane icon for AIRPORT'</span><span style="color:#E1E4E8">, () </span><span style="color:#F97583">=></span><span style="color:#E1E4E8"> { </span><span style="color:#F97583">...</span><span style="color:#E1E4E8"> });</span></span>
+<span class="line"><span style="color:#B392F0">it</span><span style="color:#E1E4E8">(</span><span style="color:#9ECBFF">'renders ship icon for SEAPORT'</span><span style="color:#E1E4E8">, () </span><span style="color:#F97583">=></span><span style="color:#E1E4E8"> { </span><span style="color:#F97583">...</span><span style="color:#E1E4E8"> });</span></span>
+<span class="line"><span style="color:#B392F0">it</span><span style="color:#E1E4E8">(</span><span style="color:#9ECBFF">'renders train icon for TRAIN_STATION'</span><span style="color:#E1E4E8">, () </span><span style="color:#F97583">=></span><span style="color:#E1E4E8"> { </span><span style="color:#F97583">...</span><span style="color:#E1E4E8"> });</span></span></code></pre>
+<p><strong>Good:</strong></p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="typescript"><code><span class="line"><span style="color:#B392F0">it</span><span style="color:#E1E4E8">(</span><span style="color:#9ECBFF">'renders correct icons for all location types'</span><span style="color:#E1E4E8">, () </span><span style="color:#F97583">=></span><span style="color:#E1E4E8"> {</span></span>
+<span class="line"><span style="color:#F97583">  const</span><span style="color:#79B8FF"> cases</span><span style="color:#F97583"> =</span><span style="color:#E1E4E8"> [</span></span>
+<span class="line"><span style="color:#E1E4E8">    [</span><span style="color:#9ECBFF">'AIRPORT'</span><span style="color:#E1E4E8">, </span><span style="color:#9ECBFF">'icon-plane'</span><span style="color:#E1E4E8">],</span></span>
+<span class="line"><span style="color:#E1E4E8">    [</span><span style="color:#9ECBFF">'SEAPORT'</span><span style="color:#E1E4E8">, </span><span style="color:#9ECBFF">'icon-ship'</span><span style="color:#E1E4E8">],</span></span>
+<span class="line"><span style="color:#E1E4E8">    [</span><span style="color:#9ECBFF">'TRAIN_STATION'</span><span style="color:#E1E4E8">, </span><span style="color:#9ECBFF">'icon-tramfront'</span><span style="color:#E1E4E8">],</span></span>
+<span class="line"><span style="color:#E1E4E8">  ];</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#E1E4E8">  cases.</span><span style="color:#B392F0">forEach</span><span style="color:#E1E4E8">(([</span><span style="color:#FFAB70">type</span><span style="color:#E1E4E8">, </span><span style="color:#FFAB70">expectedIcon</span><span style="color:#E1E4E8">]) </span><span style="color:#F97583">=></span><span style="color:#E1E4E8"> {</span></span>
+<span class="line"><span style="color:#F97583">    const</span><span style="color:#E1E4E8"> { </span><span style="color:#79B8FF">unmount</span><span style="color:#E1E4E8"> } </span><span style="color:#F97583">=</span><span style="color:#B392F0"> render</span><span style="color:#E1E4E8">(&#x3C;</span><span style="color:#B392F0">Component</span><span style="color:#B392F0"> type</span><span style="color:#E1E4E8">={</span><span style="color:#FFAB70">type</span><span style="color:#E1E4E8">} />);</span></span>
+<span class="line"><span style="color:#B392F0">    expect</span><span style="color:#E1E4E8">(screen.</span><span style="color:#B392F0">getByTestId</span><span style="color:#E1E4E8">(expectedIcon)).</span><span style="color:#B392F0">toBeInTheDocument</span><span style="color:#E1E4E8">();</span></span>
+<span class="line"><span style="color:#B392F0">    unmount</span><span style="color:#E1E4E8">();</span></span>
+<span class="line"><span style="color:#E1E4E8">  });</span></span>
+<span class="line"><span style="color:#E1E4E8">});</span></span></code></pre>
+<p>This is <strong>data-driven testing</strong>. One test, multiple inputs. If the behavior is the same, the test should be the same.</p>
+<h3 id="2-combine-related-assertions">2. Combine Related Assertions</h3>
+<p>The AI initially created three separate tests:</p>
+<ul>
+<li>“should render LocationBlock components with correct props”</li>
+<li>“should render separator between origin and destination”</li>
+<li>“should apply correct layout classes”</li>
+</ul>
+<p>These are all testing <strong>the same concern</strong>: visual structure. They belong together:</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="typescript"><code><span class="line"><span style="color:#B392F0">it</span><span style="color:#E1E4E8">(</span><span style="color:#9ECBFF">'should render correct layout and styling'</span><span style="color:#E1E4E8">, () </span><span style="color:#F97583">=></span><span style="color:#E1E4E8"> {</span></span>
+<span class="line"><span style="color:#F97583">  const</span><span style="color:#E1E4E8"> { </span><span style="color:#79B8FF">container</span><span style="color:#E1E4E8"> } </span><span style="color:#F97583">=</span><span style="color:#B392F0"> render</span><span style="color:#E1E4E8">(&#x3C;</span><span style="color:#B392F0">Component</span><span style="color:#E1E4E8"> />);</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6A737D">  // Check container</span></span>
+<span class="line"><span style="color:#F97583">  const</span><span style="color:#79B8FF"> mainContainer</span><span style="color:#F97583"> =</span><span style="color:#E1E4E8"> container.</span><span style="color:#B392F0">querySelector</span><span style="color:#E1E4E8">(</span><span style="color:#9ECBFF">'.flex.flex-col'</span><span style="color:#E1E4E8">);</span></span>
+<span class="line"><span style="color:#B392F0">  expect</span><span style="color:#E1E4E8">(mainContainer).</span><span style="color:#B392F0">toBeInTheDocument</span><span style="color:#E1E4E8">();</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6A737D">  // Check separator</span></span>
+<span class="line"><span style="color:#F97583">  const</span><span style="color:#79B8FF"> separator</span><span style="color:#F97583"> =</span><span style="color:#E1E4E8"> container.</span><span style="color:#B392F0">querySelector</span><span style="color:#E1E4E8">(</span><span style="color:#9ECBFF">'hr'</span><span style="color:#E1E4E8">);</span></span>
+<span class="line"><span style="color:#B392F0">  expect</span><span style="color:#E1E4E8">(separator).</span><span style="color:#B392F0">toHaveClass</span><span style="color:#E1E4E8">(</span><span style="color:#9ECBFF">'text-gray-300'</span><span style="color:#E1E4E8">);</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6A737D">  // Check location blocks</span></span>
+<span class="line"><span style="color:#F97583">  const</span><span style="color:#79B8FF"> blocks</span><span style="color:#F97583"> =</span><span style="color:#E1E4E8"> container.</span><span style="color:#B392F0">querySelectorAll</span><span style="color:#E1E4E8">(</span><span style="color:#9ECBFF">'.location-block'</span><span style="color:#E1E4E8">);</span></span>
+<span class="line"><span style="color:#B392F0">  expect</span><span style="color:#E1E4E8">(blocks).</span><span style="color:#B392F0">toHaveLength</span><span style="color:#E1E4E8">(</span><span style="color:#79B8FF">2</span><span style="color:#E1E4E8">);</span></span>
+<span class="line"><span style="color:#E1E4E8">});</span></span></code></pre>
+<h3 id="3-apply-domain-knowledge">3. Apply Domain Knowledge</h3>
+<p>Here’s where it got interesting. The AI was dutifully testing every possible combination, including an edge case where both origin and destination were of type “ADDRESS”.</p>
+<p>I told it: <strong>“We’ll never have ADDRESS-to-ADDRESS in our system.”</strong></p>
+<p>Immediately, the tests got simpler. No more special handling for impossible scenarios. No more conditional logic in tests.</p>
+<p><strong>The lesson:</strong> Don’t test mathematically possible combinations. Test <strong>business-realistic</strong> scenarios.</p>
+<h3 id="4-test-behavior-not-implementation">4. Test Behavior, Not Implementation</h3>
+<p><strong>Bad:</strong></p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="typescript"><code><span class="line"><span style="color:#B392F0">expect</span><span style="color:#E1E4E8">(element).</span><span style="color:#B392F0">toHaveClass</span><span style="color:#E1E4E8">(</span><span style="color:#9ECBFF">'flex'</span><span style="color:#E1E4E8">, </span><span style="color:#9ECBFF">'items-center'</span><span style="color:#E1E4E8">, </span><span style="color:#9ECBFF">'justify-between'</span><span style="color:#E1E4E8">, </span><span style="color:#9ECBFF">'px-4'</span><span style="color:#E1E4E8">);</span></span></code></pre>
+<p>This breaks when you refactor CSS. You’re testing Tailwind classes, not actual behavior.</p>
+<p><strong>Good:</strong></p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="typescript"><code><span class="line"><span style="color:#B392F0">expect</span><span style="color:#E1E4E8">(screen.</span><span style="color:#B392F0">getByText</span><span style="color:#E1E4E8">(</span><span style="color:#9ECBFF">'Delete'</span><span style="color:#E1E4E8">)).</span><span style="color:#B392F0">toBeInTheDocument</span><span style="color:#E1E4E8">();</span></span>
+<span class="line"><span style="color:#B392F0">expect</span><span style="color:#E1E4E8">(button).</span><span style="color:#B392F0">toBeDisabled</span><span style="color:#E1E4E8">();</span></span></code></pre>
+<p>Test what users see and experience, not how you built it.</p>
+<h3 id="5-one-test--one-behavior">5. One Test = One Behavior</h3>
+<p>Each test should verify <strong>one logical behavior</strong>, but can have multiple assertions supporting that behavior.</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="typescript"><code><span class="line"><span style="color:#B392F0">it</span><span style="color:#E1E4E8">(</span><span style="color:#9ECBFF">'renders origin and destination addresses'</span><span style="color:#E1E4E8">, () </span><span style="color:#F97583">=></span><span style="color:#E1E4E8"> {</span></span>
+<span class="line"><span style="color:#B392F0">  render</span><span style="color:#E1E4E8">(&#x3C;</span><span style="color:#B392F0">Component</span><span style="color:#B392F0"> origin</span><span style="color:#E1E4E8">={</span><span style="color:#FFAB70">mockOrigin</span><span style="color:#E1E4E8">} </span><span style="color:#B392F0">destination</span><span style="color:#E1E4E8">={</span><span style="color:#FFAB70">mockDestination</span><span style="color:#E1E4E8">} />);</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6A737D">  // Both assertions support the same behavior: "displays addresses"</span></span>
+<span class="line"><span style="color:#B392F0">  expect</span><span style="color:#E1E4E8">(screen.</span><span style="color:#B392F0">getByText</span><span style="color:#E1E4E8">(</span><span style="color:#9ECBFF">'123 Main St'</span><span style="color:#E1E4E8">)).</span><span style="color:#B392F0">toBeInTheDocument</span><span style="color:#E1E4E8">();</span></span>
+<span class="line"><span style="color:#B392F0">  expect</span><span style="color:#E1E4E8">(screen.</span><span style="color:#B392F0">getByText</span><span style="color:#E1E4E8">(</span><span style="color:#9ECBFF">'456 Park Ave'</span><span style="color:#E1E4E8">)).</span><span style="color:#B392F0">toBeInTheDocument</span><span style="color:#E1E4E8">();</span></span>
+<span class="line"><span style="color:#E1E4E8">});</span></span></code></pre>
+<p>Don’t confuse “one behavior” with “one assertion.” It’s about logical cohesion.</p>
+<h2 id="the-real-magic-teaching-ai-to-remember">The Real Magic: Teaching AI to Remember</h2>
+<p>Here’s the breakthrough: I didn’t just fix the tests. I created a <strong>specialized AI agent</strong> that encodes these principles.</p>
+<p>In Claude Code (and similar AI coding tools), you can create specialized agents—markdown files that provide context-specific instructions. Here’s the structure I used:</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="markdown"><code><span class="line"><span style="color:#79B8FF;font-weight:bold"># Test Writer Agent</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#79B8FF;font-weight:bold">## Purpose</span></span>
+<span class="line"><span style="color:#E1E4E8">Write high-quality, maintainable tests following project conventions.</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#79B8FF;font-weight:bold">## Core Principles</span></span>
+<span class="line"><span style="color:#FFAB70">1.</span><span style="color:#E1E4E8"> Group by concern, not by input variation</span></span>
+<span class="line"><span style="color:#FFAB70">2.</span><span style="color:#E1E4E8"> Combine related assertions</span></span>
+<span class="line"><span style="color:#FFAB70">3.</span><span style="color:#E1E4E8"> Apply domain knowledge...</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#79B8FF;font-weight:bold">## Examples</span></span>
+<span class="line"><span style="color:#E1E4E8">[Real examples from the codebase]</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#79B8FF;font-weight:bold">## Anti-Patterns to Avoid</span></span>
+<span class="line"><span style="color:#E1E4E8">[Specific bad patterns with explanations]</span></span></code></pre>
+<p>Now when I (or anyone on the team) needs to write tests, we invoke the Test Writer agent. It knows:</p>
+<ul>
+<li>Our testing framework (Vitest + React Testing Library)</li>
+<li>Our global mocks (lucide-react icons are automatically mocked)</li>
+<li>Our data patterns (ADDRESS-to-ADDRESS never happens)</li>
+<li>Our quality standards (quality over quantity)</li>
+</ul>
+<h2 id="the-results">The Results</h2>
+<p><strong>Before:</strong></p>
+<ul>
+<li>11 tests for one component</li>
+<li>Repetitive code</li>
+<li>Testing impossible scenarios</li>
+<li>Hard to maintain</li>
+</ul>
+<p><strong>After:</strong></p>
+<ul>
+<li>3 tests for the same component</li>
+<li>Data-driven approach</li>
+<li>Only realistic scenarios</li>
+<li>Easy to understand and maintain</li>
+</ul>
+<p>Same coverage. Better quality. Faster execution. More maintainable.</p>
+<h2 id="how-to-build-your-own-test-writer-agent">How to Build Your Own Test Writer Agent</h2>
+<h3 id="step-1-audit-your-existing-tests">Step 1: Audit Your Existing Tests</h3>
+<p>Look for patterns:</p>
+<ul>
+<li>Are you repeating the same test with different inputs?</li>
+<li>Do you have separate tests for related concerns?</li>
+<li>Are you testing implementation details?</li>
+<li>Do any tests check impossible scenarios?</li>
+</ul>
+<h3 id="step-2-extract-principles">Step 2: Extract Principles</h3>
+<p>From your audit, write down:</p>
+<ul>
+<li>What makes a good test in your codebase?</li>
+<li>What makes a bad test?</li>
+<li>What’s unique about your project? (framework, mocks, domain rules)</li>
+</ul>
+<h3 id="step-3-create-examples">Step 3: Create Examples</h3>
+<p>Include real before/after examples from your refactoring. Show:</p>
+<ul>
+<li>Bad test → Why it’s bad → Good version</li>
+<li>Use actual code from your project</li>
+</ul>
+<h3 id="step-4-document-anti-patterns">Step 4: Document Anti-Patterns</h3>
+<p>List specific things to avoid:</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="markdown"><code><span class="line"><span style="color:#79B8FF;font-weight:bold">## Anti-Patterns to Avoid</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FFAB70">1.</span><span style="color:#E1E4E8;font-weight:bold"> **Testing Implementation Details**</span></span>
+<span class="line"><span style="color:#E1E4E8">   ❌ Don't: </span><span style="color:#79B8FF">`expect(element).toHaveClass('flex', 'items-center')`</span></span>
+<span class="line"><span style="color:#E1E4E8">   ✅ Do: </span><span style="color:#79B8FF">`expect(button).toBeDisabled()`</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FFAB70">2.</span><span style="color:#E1E4E8;font-weight:bold"> **Over-Mocking**</span></span>
+<span class="line"><span style="color:#E1E4E8">   ❌ Don't mock the component you're testing</span></span>
+<span class="line"><span style="color:#E1E4E8">   ✅ Only mock external dependencies</span></span></code></pre>
+<h3 id="step-5-add-domain-specific-context">Step 5: Add Domain-Specific Context</h3>
+<p>Include your project’s quirks:</p>
+<ul>
+<li>“All icons are globally mocked with test IDs”</li>
+<li>“We never have ADDRESS-to-ADDRESS combinations”</li>
+<li>“Translations come from Storyblok, not locally”</li>
+</ul>
+<p>This domain knowledge is what transforms generic testing advice into actionable, project-specific guidance.</p>
+<h2 id="the-template">The Template</h2>
+<p>Here’s a minimal template to get started:</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="markdown"><code><span class="line"><span style="color:#79B8FF;font-weight:bold"># Test Writer Agent</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#79B8FF;font-weight:bold">## Tech Stack</span></span>
+<span class="line"><span style="color:#FFAB70">-</span><span style="color:#E1E4E8"> Framework: [Your framework]</span></span>
+<span class="line"><span style="color:#FFAB70">-</span><span style="color:#E1E4E8"> Testing Library: [Your testing lib]</span></span>
+<span class="line"><span style="color:#FFAB70">-</span><span style="color:#E1E4E8"> Mocking Strategy: [How you mock]</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#79B8FF;font-weight:bold">## Principles</span></span>
+<span class="line"><span style="color:#FFAB70">1.</span><span style="color:#E1E4E8"> [Your principle 1]</span></span>
+<span class="line"><span style="color:#FFAB70">2.</span><span style="color:#E1E4E8"> [Your principle 2]</span></span>
+<span class="line"><span style="color:#E1E4E8">...</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#79B8FF;font-weight:bold">## Patterns</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#79B8FF;font-weight:bold">### [Common Test Type 1]</span></span>
+<span class="line"><span style="color:#E1E4E8">```code</span></span>
+<span class="line"><span style="color:#E1E4E8">// Example</span></span></code></pre>
+<h3 id="common-test-type-2">[Common Test Type 2]</h3>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span>// Example</span></span></code></pre>
+<h2 id="anti-patterns">Anti-Patterns</h2>
+<ol>
+<li>[Anti-pattern 1]
+<ul>
+<li>Why it’s bad</li>
+<li>What to do instead</li>
+</ul>
+</li>
+</ol>
+<h2 id="domain-knowledge">Domain Knowledge</h2>
+<ul>
+<li>[Unique constraint 1]</li>
+<li>[Unique constraint 2]</li>
+</ul>
+<h2 id="checklist">Checklist</h2>
+<ul class="contains-task-list">
+<li class="task-list-item"><input type="checkbox" disabled> Tests use data-driven approach for variations</li>
+<li class="task-list-item"><input type="checkbox" disabled> Related assertions grouped together</li>
+<li class="task-list-item"><input type="checkbox" disabled> Only realistic scenarios tested</li>
+<li class="task-list-item"><input type="checkbox" disabled> Behavior over implementation</li>
+</ul>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span></span></span>
+<span class="line"><span>## The Feedback Loop</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>The most important part? **Iterate with the AI**. When I reviewed the AI's initial tests, I didn't just fix them—I explained *why* they needed fixing:</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>- "Can you collapse these icon tests into a single smart test case?"</span></span>
+<span class="line"><span>- "These layout checks can be combined—they're testing the same concern"</span></span>
+<span class="line"><span>- "We'll never have ADDRESS-to-ADDRESS. Remove that case."</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>Each piece of feedback improved not just the tests, but my understanding of what to put in the agent documentation.</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>## The Real Win</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>Three months from now, when someone (human or AI) needs to write tests for a new component, they won't have to reinvent these principles. They won't go through the same "11 bad tests → 3 good tests" journey I did.</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>They'll have a guide. A specialized agent. A shared understanding of quality.</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>And that's worth more than any single test suite.</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>## Key Takeaways</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>1. **Quality > Quantity**: 3 well-structured tests beat 11 repetitive ones</span></span>
+<span class="line"><span>2. **Data-driven testing**: Use arrays for input variations, not separate tests</span></span>
+<span class="line"><span>3. **Domain knowledge matters**: Don't test impossible scenarios</span></span>
+<span class="line"><span>4. **Test behavior, not implementation**: Focus on what users experience</span></span>
+<span class="line"><span>5. **Encode your knowledge**: Create specialized AI agents with your principles</span></span>
+<span class="line"><span>6. **Include real examples**: Before/after from actual refactoring</span></span>
+<span class="line"><span>7. **Document anti-patterns**: Show what NOT to do with explanations</span></span>
+<span class="line"><span>8. **Iterate and refine**: Each feedback session improves your agent</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>## Your Turn</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>Look at your test suite right now. How many tests are just the same test with different inputs? How many are testing implementation details? How many check scenarios that never happen in production?</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>You don't need to fix them all today. Start small:</span></span>
+<span class="line"><span>1. Pick one component</span></span>
+<span class="line"><span>2. Refactor its tests using these principles</span></span>
+<span class="line"><span>3. Document what you learned</span></span>
+<span class="line"><span>4. Create an agent for your team</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>Your future self (and your AI pair programmer) will thank you.</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>---</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>*The complete Test Writer agent from this article is available at [your-repo/.claude/agents/test-writer.md]. It's a living document that evolves with our codebase. Feel free to fork it and adapt it to your project.*</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>---</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>**About the Author**: I'm a developer who believes that good tests are like good documentation—they should tell a story, not just prove a point. When I'm not teaching AI assistants about test quality, I'm probably refactoring some other part of the codebase that "works fine but could be better."</span></span></code></pre>  </div> </article> </main> <footer data-astro-cid-sz7xmlte>
+&copy; 2026 Abraham Toledo. All rights reserved.
+<div class="social-links" data-astro-cid-sz7xmlte> <a href="https://www.linkedin.com/in/abraham-toledo/" target="_blank" data-astro-cid-sz7xmlte> <span class="sr-only" data-astro-cid-sz7xmlte>Connect on LinkedIn</span> <svg viewBox="0 0 16 16" aria-hidden="true" width="32" height="32" astro-icon="social/linkedin" data-astro-cid-sz7xmlte><path fill="currentColor" d="M0 1.146C0 .513.526 0 1.175 0h13.65C15.474 0 16 .513 16 1.146v13.708c0 .633-.526 1.146-1.175 1.146H1.175C.526 16 0 15.487 0 14.854V1.146zm4.943 12.248V6.169H2.542v7.225h2.401zm-1.2-8.212c.837 0 1.358-.554 1.358-1.248-.015-.709-.52-1.248-1.342-1.248-.822 0-1.359.54-1.359 1.248 0 .694.521 1.248 1.327 1.248h.016zm4.908 8.212V9.359c0-.216.016-.432.08-.586.173-.431.568-.878 1.232-.878.869 0 1.216.662 1.216 1.634v3.865h2.401V9.25c0-2.22-1.184-3.252-2.764-3.252-1.274 0-1.845.7-2.165 1.193v.025h-.016a5.54 5.54 0 0 1 .016-.025V6.169h-2.4c.03.678 0 7.225 0 7.225h2.4z" data-astro-cid-sz7xmlte></path></svg> </a> <a href="https://github.com/atscub" target="_blank" data-astro-cid-sz7xmlte> <span class="sr-only" data-astro-cid-sz7xmlte>My GitHub profile</span> <svg viewBox="0 0 16 16" aria-hidden="true" width="32" height="32" astro-icon="social/github" data-astro-cid-sz7xmlte><path fill="currentColor" d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.012 8.012 0 0 0 16 8c0-4.42-3.58-8-8-8z" data-astro-cid-sz7xmlte></path></svg> </a> </div> </footer>  </body></html>
