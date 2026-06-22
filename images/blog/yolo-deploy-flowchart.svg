@@ -1,0 +1,103 @@
+<svg viewBox="0 0 720 340" xmlns="http://www.w3.org/2000/svg" style="font-family: 'Courier New', Courier, monospace; background: #1a1a2e;">
+  <rect width="720" height="340" fill="#1a1a2e" rx="8"/>
+  <defs>
+    <marker id="arr" markerWidth="8" markerHeight="8" refX="8" refY="4" orient="auto">
+      <path d="M0,0 L8,4 L0,8" fill="none" stroke="#6c7a89" stroke-width="1.5"/>
+    </marker>
+    <marker id="arr-red" markerWidth="8" markerHeight="8" refX="8" refY="4" orient="auto">
+      <path d="M0,0 L8,4 L0,8" fill="none" stroke="#C0503A" stroke-width="1.5"/>
+    </marker>
+  </defs>
+
+  <!-- Row 1: deps → blockers? → merge → CI? -->
+
+  <!-- find deps (box) — teal outline -->
+  <rect x="20" y="40" width="110" height="40" rx="4" fill="#2d3436" stroke="#5BA4A4" stroke-width="1.5"/>
+  <text x="75" y="64" text-anchor="middle" fill="#a8d8a8" font-size="12" font-weight="bold">find deps</text>
+  <!-- knowledge base note -->
+  <text x="75" y="100" text-anchor="middle" fill="#6c7a89" font-size="9" font-style="italic">reads platform</text>
+  <text x="75" y="112" text-anchor="middle" fill="#6c7a89" font-size="9" font-style="italic">knowledge base</text>
+
+  <!-- arrow -->
+  <line x1="130" y1="60" x2="175" y2="60" stroke="#6c7a89" stroke-width="1.5" marker-end="url(#arr)"/>
+
+  <!-- blockers? (diamond) — burnt orange outline -->
+  <polygon points="230,30 280,60 230,90 180,60" fill="#2d3436" stroke="#CC5500" stroke-width="1.5"/>
+  <text x="230" y="64" text-anchor="middle" fill="#f39c12" font-size="11" font-weight="bold">blocked?</text>
+
+  <!-- yes branch down -->
+  <line x1="230" y1="90" x2="230" y2="135" stroke="#C0503A" stroke-width="1.5" stroke-dasharray="5,3" marker-end="url(#arr-red)"/>
+  <rect x="180" y="138" width="100" height="30" rx="4" fill="none" stroke="#C0503A" stroke-width="1" stroke-dasharray="4,3"/>
+  <text x="230" y="157" text-anchor="middle" fill="#C0503A" font-size="10">stop &amp; tell me</text>
+
+  <!-- no arrow right -->
+  <line x1="280" y1="60" x2="330" y2="60" stroke="#6c7a89" stroke-width="1.5" marker-end="url(#arr)"/>
+  <text x="300" y="52" text-anchor="middle" fill="#27ae60" font-size="9">no</text>
+
+  <!-- merge PR (box) — maroon outline -->
+  <rect x="335" y="40" width="100" height="40" rx="4" fill="#2d3436" stroke="#7B2D26" stroke-width="1"/>
+  <text x="385" y="64" text-anchor="middle" fill="white" font-size="12" font-weight="bold">merge PR</text>
+
+  <!-- arrow -->
+  <line x1="435" y1="60" x2="485" y2="60" stroke="#6c7a89" stroke-width="1.5" marker-end="url(#arr)"/>
+
+  <!-- CI? (diamond) — burnt orange outline -->
+  <polygon points="540,30 590,60 540,90 490,60" fill="#2d3436" stroke="#CC5500" stroke-width="1.5"/>
+  <text x="540" y="57" text-anchor="middle" fill="#f39c12" font-size="10" font-weight="bold">CI</text>
+  <text x="540" y="69" text-anchor="middle" fill="#f39c12" font-size="10" font-weight="bold">pass?</text>
+
+  <!-- CI fail branch down -->
+  <line x1="540" y1="90" x2="540" y2="135" stroke="#C0503A" stroke-width="1.5" stroke-dasharray="5,3" marker-end="url(#arr-red)"/>
+  <rect x="490" y="138" width="100" height="30" rx="4" fill="none" stroke="#C0503A" stroke-width="1" stroke-dasharray="4,3"/>
+  <text x="540" y="157" text-anchor="middle" fill="#C0503A" font-size="10">stop &amp; tell me</text>
+
+  <!-- CI pass arrow down to row 2 -->
+  <line x1="590" y1="60" x2="640" y2="60" stroke="#6c7a89" stroke-width="1.5"/>
+  <text x="610" y="52" text-anchor="middle" fill="#27ae60" font-size="9">yes</text>
+  <line x1="640" y1="60" x2="640" y2="210" stroke="#6c7a89" stroke-width="1.5"/>
+  <line x1="640" y1="210" x2="620" y2="210" stroke="#6c7a89" stroke-width="1.5" marker-end="url(#arr)"/>
+
+  <!-- Row 2: prod? → slack → trigger RC → wait RC → prod ✓ -->
+
+  <!-- prod? (diamond) — burnt orange outline -->
+  <polygon points="570,180 620,210 570,240 520,210" fill="#2d3436" stroke="#CC5500" stroke-width="1.5"/>
+  <text x="570" y="207" text-anchor="middle" fill="#f39c12" font-size="10" font-weight="bold">prod</text>
+  <text x="570" y="219" text-anchor="middle" fill="#f39c12" font-size="10" font-weight="bold">env?</text>
+
+  <!-- yes: slack -->
+  <line x1="520" y1="210" x2="460" y2="210" stroke="#6c7a89" stroke-width="1.5" marker-end="url(#arr)"/>
+  <text x="490" y="202" text-anchor="middle" fill="#27ae60" font-size="9">yes</text>
+
+  <rect x="370" y="190" width="90" height="40" rx="4" fill="#636e72" stroke="#7B2D26" stroke-width="1"/>
+  <text x="415" y="207" text-anchor="middle" fill="white" font-size="11">slack</text>
+  <text x="415" y="220" text-anchor="middle" fill="#ccc" font-size="9">#releases</text>
+
+  <!-- arrow from slack to RC -->
+  <line x1="370" y1="210" x2="310" y2="210" stroke="#6c7a89" stroke-width="1.5" marker-end="url(#arr)"/>
+
+  <!-- no: skip slack, go straight to RC -->
+  <line x1="570" y1="240" x2="570" y2="270" stroke="#6c7a89" stroke-width="1"/>
+  <text x="582" y="258" fill="#999" font-size="9">no</text>
+  <line x1="570" y1="270" x2="265" y2="270" stroke="#6c7a89" stroke-width="1"/>
+  <line x1="265" y1="270" x2="265" y2="235" stroke="#6c7a89" stroke-width="1.5" marker-end="url(#arr)"/>
+
+  <!-- trigger RC — maroon outline -->
+  <rect x="210" y="190" width="100" height="40" rx="4" fill="#2d3436" stroke="#7B2D26" stroke-width="1"/>
+  <text x="260" y="214" text-anchor="middle" fill="white" font-size="12" font-weight="bold">trigger RC</text>
+
+  <!-- arrow to wait -->
+  <line x1="210" y1="210" x2="150" y2="210" stroke="#6c7a89" stroke-width="1.5" marker-end="url(#arr)"/>
+
+  <!-- wait RC — maroon outline -->
+  <rect x="60" y="190" width="90" height="40" rx="4" fill="#2d3436" stroke="#7B2D26" stroke-width="1"/>
+  <text x="105" y="207" text-anchor="middle" fill="white" font-size="11">wait</text>
+  <text x="105" y="221" text-anchor="middle" fill="#999" font-size="9">staging ✓</text>
+
+  <!-- arrow down to prod -->
+  <line x1="105" y1="230" x2="105" y2="280" stroke="#6c7a89" stroke-width="1.5" marker-end="url(#arr)"/>
+
+  <!-- prod deploy — teal outline -->
+  <rect x="55" y="283" width="100" height="40" rx="6" fill="#00b894" stroke="#5BA4A4" stroke-width="2"/>
+  <text x="105" y="302" text-anchor="middle" fill="white" font-size="13" font-weight="bold">prod ✓</text>
+  <text x="105" y="315" text-anchor="middle" fill="rgba(255,255,255,0.7)" font-size="9">live</text>
+</svg>
